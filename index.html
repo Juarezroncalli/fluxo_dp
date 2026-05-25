@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fluxo DP & Consultoria — BPO de Departamento Pessoal para escritórios de contabilidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --navy-900:#08152F;
+    --navy-800:#0B1B3B;
+    --navy-700:#142554;
+    --navy-600:#1E3370;
+    --navy-500:#2C4690;
+    --cream:#F4F1EA;
+    --cream-2:#EDE9DF;
+    --paper:#FAF8F3;
+    --white:#FFFFFF;
+    --gray-50:#F1F1ED;
+    --gray-100:#E5E5DF;
+    --gray-200:#D2D3CE;
+    --gray-300:#B5B6B0;
+    --gray-500:#7A7C7F;
+    --gray-700:#3F4147;
+    --gray-900:#161719;
+    --ink:#0A0B0D;
+
+    --serif:'Instrument Serif', 'Times New Roman', serif;
+    --sans:'Manrope', system-ui, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+
+    --rule:1px solid rgba(11,27,59,.12);
+    --rule-light:1px solid rgba(11,27,59,.07);
+    --rule-cream:1px solid rgba(244,241,234,.16);
+
+    --r-sm:6px;
+    --r-md:14px;
+    --r-lg:22px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--cream);
+    color:var(--navy-900);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  img{max-width:100%;display:block}
+
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+  .wrap-narrow{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .smallcaps{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+
+  .display{
+    font-family:var(--serif);
+    font-weight:400;
+    letter-spacing:-.01em;
+    line-height:.94;
+  }
+  .it{font-style:italic}
+
+  /* =========================== NAV =========================== */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    transition:background .25s ease, backdrop-filter .25s ease, border-color .25s ease;
+    border-bottom:1px solid transparent;
+  }
+  .nav.scrolled{
+    background:rgba(244,241,234,.78);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom-color:rgba(11,27,59,.08);
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;max-width:1440px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:22px;letter-spacing:-.01em}
+  .brand image-slot{display:inline-block;vertical-align:middle;flex-shrink:0}
+  .brand b{font-weight:400}
+  .brand span{color:var(--gray-500);font-family:var(--sans);font-size:13px;letter-spacing:.04em;margin-left:4px}
+
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a{font-size:14px;color:var(--navy-800);opacity:.78;transition:opacity .2s}
+  .nav-links a:hover{opacity:1}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:12px 20px;
+    border-radius:999px;
+    font-size:14px;font-weight:500;letter-spacing:.01em;
+    transition:transform .15s ease, background .2s, color .2s, box-shadow .2s;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--navy-800);color:var(--cream)}
+  .btn-primary:hover{background:var(--navy-700);transform:translateY(-1px);box-shadow:0 10px 30px -10px rgba(11,27,59,.45)}
+  .btn-ghost{color:var(--navy-800);border:1px solid rgba(11,27,59,.18)}
+  .btn-ghost:hover{background:var(--navy-800);color:var(--cream);border-color:var(--navy-800)}
+  .btn-arrow{width:18px;height:18px;display:inline-block;position:relative}
+  .btn-arrow::before,.btn-arrow::after{content:"";position:absolute;background:currentColor}
+  .btn-arrow::before{top:50%;left:0;right:2px;height:1.2px;transform:translateY(-50%)}
+  .btn-arrow::after{right:0;top:50%;width:8px;height:8px;border-top:1.2px solid currentColor;border-right:1.2px solid currentColor;transform:translateY(-50%) rotate(45deg)}
+
+  /* =========================== HERO =========================== */
+  .hero{
+    padding:140px 0 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:64px;align-items:end;
+  }
+  .hero h1.display{
+    font-size:clamp(64px, 9vw, 132px);
+    margin:24px 0 0;
+    color:var(--navy-900);
+  }
+  .hero h1 .accent{color:var(--navy-600);font-style:italic}
+  .hero-eyebrow{
+    display:flex;align-items:center;gap:14px;color:var(--gray-500);
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--navy-700)}
+  .hero-side{
+    border-left:var(--rule);
+    padding-left:32px;
+    padding-bottom:8px;
+  }
+  .hero-side p{
+    font-size:17px;line-height:1.55;color:var(--gray-700);max-width:36ch;margin:0 0 24px;
+  }
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+
+  .hero-meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    margin-top:96px;background:rgba(11,27,59,.12);
+    border-top:var(--rule);border-bottom:var(--rule);
+  }
+  .hero-meta > div{
+    background:var(--cream);padding:24px 20px;
+  }
+  .hero-meta .k{
+    font-family:var(--serif);font-size:48px;line-height:1;color:var(--navy-800);
+  }
+  .hero-meta .l{
+    margin-top:10px;font-size:13px;color:var(--gray-500);
+  }
+
+  /* subtle background patterns */
+  .grain{
+    position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:
+      radial-gradient(rgba(11,27,59,.05) 1px, transparent 1px);
+    background-size:3px 3px;
+    mask-image:radial-gradient(ellipse at top right, black 0%, transparent 70%);
+  }
+
+  /* =========================== ALCANCE / SECTION TYPE =========================== */
+  section{padding:96px 0;position:relative}
+  .section-head{
+    display:grid;grid-template-columns:200px 1fr;gap:48px;
+    align-items:start;margin-bottom:48px;
+  }
+  .section-head .label{color:var(--gray-500);padding-top:14px;border-top:var(--rule)}
+  .section-head h2.display{
+    font-size:clamp(40px, 5vw, 64px);
+    margin:0;max-width:18ch;color:var(--navy-900);
+  }
+
+  /* =========================== PARA QUEM =========================== */
+  .para-quem{background:var(--paper)}
+  .quem-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(11,27,59,.1);
+    border:var(--rule);
+  }
+  .quem-card{
+    background:var(--paper);
+    padding:36px 32px 32px;
+    display:flex;flex-direction:column;gap:14px;min-height:240px;
+    transition:background .25s;
+  }
+  .quem-card:hover{background:var(--cream)}
+  .quem-card .num{
+    font-family:var(--serif);font-size:42px;line-height:1;color:var(--navy-700);
+  }
+  .quem-card h3{font-family:var(--serif);font-size:24px;font-weight:400;margin:0;line-height:1.15}
+  .quem-card p{margin:0;color:var(--gray-700);font-size:15px;line-height:1.55}
+
+  /* =========================== SERVIÇOS =========================== */
+  .servicos{background:var(--navy-900);color:var(--cream)}
+  .servicos .section-head .label{color:rgba(244,241,234,.55);border-top-color:rgba(244,241,234,.18)}
+  .servicos .section-head h2{color:var(--cream)}
+
+  .serv-list{border-top:var(--rule-cream)}
+  .serv-row{
+    display:grid;grid-template-columns:80px 1.2fr 2fr 60px;
+    gap:24px;align-items:start;
+    padding:28px 8px;
+    border-bottom:var(--rule-cream);
+    cursor:pointer;
+    transition:padding .25s ease, background .25s ease;
+  }
+  .serv-row:hover{padding-left:24px;background:rgba(244,241,234,.03)}
+  .serv-row .idx{font-family:var(--mono);font-size:12px;color:rgba(244,241,234,.5);padding-top:8px}
+  .serv-row h3{
+    margin:0;font-family:var(--serif);font-size:28px;font-weight:400;line-height:1.1;
+    color:var(--cream);max-width:14ch;
+  }
+  .serv-row p{margin:0;color:rgba(244,241,234,.7);font-size:15px;line-height:1.55;max-width:50ch;padding-top:6px}
+  .serv-row .plus{
+    justify-self:end;align-self:center;
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid rgba(244,241,234,.25);
+    position:relative;transition:background .2s, transform .25s;
+  }
+  .serv-row .plus::before,.serv-row .plus::after{
+    content:"";position:absolute;background:var(--cream);
+    top:50%;left:50%;transform:translate(-50%,-50%);
+  }
+  .serv-row .plus::before{width:12px;height:1px}
+  .serv-row .plus::after{width:1px;height:12px;transition:transform .25s}
+  .serv-row.open .plus{background:var(--cream)}
+  .serv-row.open .plus::before,.serv-row.open .plus::after{background:var(--navy-900)}
+  .serv-row.open .plus::after{transform:translate(-50%,-50%) rotate(90deg)}
+  .serv-detail{
+    display:none;grid-column:2 / span 3;padding:8px 0 16px;
+    color:rgba(244,241,234,.78);font-size:14px;line-height:1.6;
+  }
+  .serv-detail ul{margin:0;padding-left:18px;columns:2;column-gap:48px}
+  .serv-detail li{margin-bottom:6px}
+  .serv-row.open + .serv-detail{display:block}
+
+  /* =========================== PROCESSO =========================== */
+  .processo{background:var(--cream)}
+  .proc-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:0;border-top:var(--rule);
+  }
+  .proc-step{
+    padding:32px 24px 36px;border-right:var(--rule);position:relative;
+  }
+  .proc-step:last-child{border-right:none}
+  .proc-step .step-n{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gray-500);
+  }
+  .proc-step h4{
+    font-family:var(--serif);font-size:28px;font-weight:400;
+    margin:16px 0 12px;line-height:1.1;color:var(--navy-900);
+  }
+  .proc-step p{margin:0;font-size:14.5px;color:var(--gray-700);line-height:1.55}
+  .proc-step .dot{
+    position:absolute;left:-5px;top:-5px;
+    width:10px;height:10px;border-radius:50%;background:var(--navy-800);
+  }
+
+  /* =========================== CALCULADORA =========================== */
+  .calc{
+    background:linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+  }
+  .calc-shell{
+    display:grid;grid-template-columns:1fr 1.1fr;gap:0;
+    border:var(--rule);border-radius:var(--r-lg);overflow:hidden;background:var(--paper);
+    box-shadow:0 30px 80px -40px rgba(11,27,59,.25);
+  }
+  .calc-controls{padding:48px 44px;border-right:var(--rule)}
+  .calc-controls h3{
+    font-family:var(--serif);font-size:36px;font-weight:400;margin:0 0 8px;line-height:1.05;
+  }
+  .calc-controls p.sub{color:var(--gray-500);font-size:14px;margin:0 0 32px}
+
+  .field{margin-bottom:28px}
+  .field label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:13px;color:var(--navy-800);margin-bottom:12px;
+  }
+  .field label .val{
+    font-family:var(--mono);font-size:13px;color:var(--gray-700);
+  }
+  input[type=range]{
+    -webkit-appearance:none;width:100%;background:transparent;
+  }
+  input[type=range]::-webkit-slider-runnable-track{
+    height:2px;background:rgba(11,27,59,.18);border-radius:2px;
+  }
+  input[type=range]::-moz-range-track{
+    height:2px;background:rgba(11,27,59,.18);border-radius:2px;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+    background:var(--navy-800);margin-top:-8px;cursor:pointer;
+    box-shadow:0 0 0 4px var(--paper), 0 0 0 5px rgba(11,27,59,.15);
+    transition:transform .15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.1)}
+  input[type=range]::-moz-range-thumb{
+    width:18px;height:18px;border-radius:50%;border:none;
+    background:var(--navy-800);cursor:pointer;
+    box-shadow:0 0 0 4px var(--paper), 0 0 0 5px rgba(11,27,59,.15);
+  }
+
+  .calc-result{
+    padding:48px 44px;background:var(--navy-900);color:var(--cream);
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .calc-result .lbl{
+    color:rgba(244,241,234,.55);
+  }
+  .calc-result .big{
+    font-family:var(--serif);
+    font-size:clamp(56px, 7vw, 96px);
+    line-height:1;color:var(--cream);margin:12px 0 4px;
+    letter-spacing:-.01em;
+  }
+  .calc-result .big .cur{font-size:.45em;vertical-align:top;color:rgba(244,241,234,.55);margin-right:6px;font-style:italic}
+  .calc-result .per{color:rgba(244,241,234,.6);font-size:14px;margin-bottom:32px}
+  .calc-comp{
+    display:grid;grid-template-columns:1fr 1fr;gap:24px;
+    padding-top:24px;border-top:var(--rule-cream);
+  }
+  .calc-comp .ttl{font-size:12px;color:rgba(244,241,234,.5);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+  .calc-comp .v{font-family:var(--serif);font-size:32px;color:var(--cream)}
+  .calc-comp .strike{text-decoration:line-through;color:rgba(244,241,234,.4)}
+
+  /* =========================== DIFERENCIAIS =========================== */
+  .diff{background:var(--paper)}
+  .diff-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(11,27,59,.1);border:var(--rule)}
+  .diff-card{background:var(--paper);padding:48px 44px;min-height:280px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+  .diff-card:hover{background:var(--cream)}
+  .diff-card .head{display:flex;align-items:baseline;gap:18px}
+  .diff-card .head .n{font-family:var(--mono);font-size:12px;color:var(--gray-500);letter-spacing:.1em}
+  .diff-card h4{font-family:var(--serif);font-size:36px;font-weight:400;margin:0;line-height:1.05;max-width:18ch}
+  .diff-card p{margin:0;font-size:15px;color:var(--gray-700);line-height:1.6;max-width:40ch}
+  .diff-card .head h4 .it{color:var(--navy-600)}
+
+  /* =========================== QUOTE / PLACEHOLDER PROOF =========================== */
+  .quote{background:var(--navy-800);color:var(--cream);padding:120px 0}
+  .quote-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:end}
+  .quote .portrait-slot{
+    width:100%;
+    height:auto;
+    aspect-ratio:2/3;
+    display:block;
+  }
+  .quote blockquote{
+    margin:0;font-family:var(--serif);font-size:clamp(34px, 4vw, 56px);
+    line-height:1.05;font-weight:400;
+  }
+  .quote blockquote .it{color:rgba(244,241,234,.65)}
+  .quote .cite{margin-top:32px;display:flex;align-items:center;gap:14px;color:rgba(244,241,234,.65);font-size:14px}
+  .quote .cite .bar{width:32px;height:1px;background:rgba(244,241,234,.4)}
+
+  /* =========================== FAQ =========================== */
+  .faq{background:var(--cream)}
+  .faq-list{border-top:var(--rule)}
+  .faq-item{border-bottom:var(--rule);padding:0}
+  .faq-q{
+    width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;
+    padding:28px 8px;font-family:var(--serif);font-size:24px;font-weight:400;line-height:1.2;color:var(--navy-900);
+    gap:24px;transition:padding .2s;
+  }
+  .faq-q:hover{padding-left:16px}
+  .faq-q .sign{
+    width:28px;height:28px;border:1px solid rgba(11,27,59,.3);border-radius:50%;
+    position:relative;flex-shrink:0;transition:background .2s, border-color .2s;
+  }
+  .faq-q .sign::before,.faq-q .sign::after{
+    content:"";position:absolute;top:50%;left:50%;background:var(--navy-800);
+  }
+  .faq-q .sign::before{width:10px;height:1px;transform:translate(-50%,-50%)}
+  .faq-q .sign::after{width:1px;height:10px;transform:translate(-50%,-50%);transition:transform .25s}
+  .faq-item.open .faq-q .sign{background:var(--navy-800);border-color:var(--navy-800)}
+  .faq-item.open .faq-q .sign::before,.faq-item.open .faq-q .sign::after{background:var(--cream)}
+  .faq-item.open .faq-q .sign::after{transform:translate(-50%,-50%) rotate(90deg)}
+  .faq-a{
+    max-height:0;overflow:hidden;transition:max-height .35s ease, padding .35s ease;
+    color:var(--gray-700);font-size:15.5px;line-height:1.65;max-width:70ch;
+  }
+  .faq-item.open .faq-a{padding:0 8px 28px;max-height:400px}
+
+  /* =========================== CTA / FORM =========================== */
+  .cta{background:var(--cream-2);padding:120px 0}
+  .cta-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start}
+  .cta h2.display{font-size:clamp(48px, 6vw, 80px);margin:0 0 24px;line-height:.95;color:var(--navy-900)}
+  .cta-lead{color:var(--gray-700);font-size:17px;line-height:1.55;max-width:42ch}
+  .cta-contact-list{margin-top:48px;border-top:var(--rule)}
+  .cta-contact-list .row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;border-bottom:var(--rule);font-size:14px;
+  }
+  .cta-contact-list .row span{color:var(--gray-500)}
+  .cta-contact-list .row b{font-weight:500;color:var(--navy-800);font-family:var(--mono);font-size:13px}
+
+  .form{
+    background:var(--paper);border:var(--rule);border-radius:var(--r-md);
+    padding:36px 36px 32px;
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .form-row.full{grid-template-columns:1fr}
+  .form label.in{
+    display:block;font-size:12px;color:var(--gray-500);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;
+  }
+  .form input,.form select,.form textarea{
+    width:100%;padding:12px 14px;
+    background:var(--white);border:1px solid rgba(11,27,59,.15);
+    border-radius:var(--r-sm);font:inherit;color:var(--navy-900);
+    transition:border-color .15s, box-shadow .15s;
+    font-size:14.5px;
+  }
+  .form textarea{resize:vertical;min-height:96px}
+  .form input:focus,.form select:focus,.form textarea:focus{
+    outline:none;border-color:var(--navy-700);
+    box-shadow:0 0 0 3px rgba(20,37,84,.12);
+  }
+  .form .err{color:#9B2727;font-size:12px;margin-top:6px;min-height:14px;display:block}
+  .form button[type=submit]{
+    margin-top:14px;width:100%;
+    background:var(--navy-800);color:var(--cream);
+    padding:16px 24px;border-radius:999px;font-weight:500;font-size:14.5px;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    transition:background .2s, transform .15s;
+  }
+  .form button[type=submit]:hover{background:var(--navy-700);transform:translateY(-1px)}
+  .form .ok{
+    display:none;text-align:center;padding:40px 12px;color:var(--navy-800);
+  }
+  .form.success .ok{display:block}
+  .form.success .form-fields{display:none}
+  .form .ok .check{
+    width:48px;height:48px;border-radius:50%;background:var(--navy-800);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+    font-family:var(--serif);font-size:28px;
+  }
+  .form .ok h4{font-family:var(--serif);font-size:28px;font-weight:400;margin:0 0 6px}
+  .form .ok p{margin:0;color:var(--gray-700);font-size:14px}
+
+  /* =========================== FOOTER =========================== */
+  footer{background:var(--navy-900);color:rgba(244,241,234,.7);padding:80px 0 40px}
+  .foot-grid{
+    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px;
+  }
+  .foot-grid h5{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:rgba(244,241,234,.5);margin:0 0 16px;font-weight:500;
+  }
+  .foot-grid a{display:block;padding:5px 0;color:rgba(244,241,234,.78);font-size:14px;transition:color .15s}
+  .foot-grid a:hover{color:var(--cream)}
+  .foot-brand .brand{color:var(--cream);font-size:28px}
+  .foot-brand p{margin:16px 0 0;max-width:36ch;color:rgba(244,241,234,.6);font-size:14px;line-height:1.55}
+  .foot-bottom{
+    border-top:var(--rule-cream);padding-top:24px;
+    display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    font-size:12px;color:rgba(244,241,234,.5);font-family:var(--mono);letter-spacing:.04em;
+  }
+
+  /* huge typographic footer wordmark */
+  .foot-mark{
+    font-family:var(--serif);
+    font-size:clamp(56px, 12vw, 180px);
+    line-height:.88;letter-spacing:-.03em;
+    color:rgba(244,241,234,.08);
+    margin:48px 0 0;
+    user-select:none;
+  }
+  .foot-mark span.line{display:block}
+  .foot-mark .it{color:rgba(244,241,234,.12)}
+
+  /* =========================== RESPONSIVE =========================== */
+  @media (max-width: 980px){
+    .nav-links{display:none}
+    .hero{padding:120px 0 40px}
+    .hero-grid{grid-template-columns:1fr;gap:32px}
+    .hero-side{border-left:none;padding-left:0;border-top:var(--rule);padding-top:24px}
+    .hero-meta{grid-template-columns:repeat(2,1fr);margin-top:48px}
+    .section-head{grid-template-columns:1fr;gap:16px}
+    .quem-grid,.diff-grid{grid-template-columns:1fr}
+    .proc-grid{grid-template-columns:repeat(2,1fr)}
+    .proc-step:nth-child(2){border-right:none}
+    .proc-step:nth-child(1),.proc-step:nth-child(2){border-bottom:var(--rule)}
+    .serv-row{grid-template-columns:50px 1fr 40px;gap:14px}
+    .serv-row p{display:none}
+    .serv-detail ul{columns:1}
+    .calc-shell{grid-template-columns:1fr}
+    .calc-controls{border-right:none;border-bottom:var(--rule);padding:32px 24px}
+    .calc-result{padding:32px 24px}
+    .quote-grid,.cta-grid{grid-template-columns:1fr;gap:32px}
+    .quote .portrait-slot{max-width:60%}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .foot-brand{grid-column:1 / -1}
+    section{padding:72px 0}
+    .wrap,.wrap-narrow,.nav-inner{padding-left:20px;padding-right:20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="Fluxo DP & Consultoria">
+      <image-slot id="logo" shape="circle" style="width:34px;height:34px" placeholder="logo"></image-slot>
+      <b>Fluxo DP</b><span>&  Consultoria</span>
+    </a>
+    <div class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#processo">Processo</a>
+      <a href="#calc">Economia</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#cta" class="btn btn-primary">
+      Falar com um especialista
+      <span class="btn-arrow"></span>
+    </a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          <span class="smallcaps">BPO de Departamento Pessoal · desde 2017</span>
+        </div>
+        <h1 class="display">
+          O departamento<br>
+          pessoal do seu<br>
+          escritório, <span class="accent it">terceirizado</span><br>
+          com método.
+        </h1>
+      </div>
+      <aside class="hero-side">
+        <p>
+          A Fluxo DP assume a folha, o eSocial, as admissões, as rescisões e toda a operação trabalhista da carteira do seu escritório de contabilidade — sem você precisar contratar, treinar ou auditar uma equipe interna de DP.
+        </p>
+        <div class="hero-actions">
+          <a href="#cta" class="btn btn-primary">Solicitar diagnóstico gratuito <span class="btn-arrow"></span></a>
+          <a href="#servicos" class="btn btn-ghost">Conhecer serviços</a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="hero-meta">
+      <div>
+        <div class="k" data-counter="180">0</div>
+        <div class="l">Escritórios de contabilidade atendidos no Brasil</div>
+      </div>
+      <div>
+        <div class="k" data-counter="14000" data-suffix="+">0</div>
+        <div class="l">Folhas processadas mensalmente em nossa plataforma</div>
+      </div>
+      <div>
+        <div class="k" data-counter="99" data-suffix="%">0</div>
+        <div class="l">Entregas dentro do prazo legal nos últimos 24 meses</div>
+      </div>
+      <div>
+        <div class="k">SLA<span style="font-family:var(--sans);font-size:24px;vertical-align:super;color:var(--gray-500)"> 48h</span></div>
+        <div class="l">Garantia contratual de resposta a qualquer demanda do cliente final</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== PARA QUEM ===================== -->
+<section class="para-quem" id="para-quem">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="smallcaps label">— Para quem é</div>
+      <h2 class="display">Feito para o escritório de contabilidade que <span class="it">não quer mais</span> operar o DP.</h2>
+    </div>
+
+    <div class="quem-grid">
+      <div class="quem-card">
+        <div class="num">01</div>
+        <h3>Escritórios em crescimento</h3>
+        <p>Sua carteira aumentou e o DP virou gargalo. Cada novo cliente exige novos eventos no eSocial, novas folhas, mais admissões — e a sua equipe atual não escala.</p>
+      </div>
+      <div class="quem-card">
+        <div class="num">02</div>
+        <h3>Escritórios sem especialista</h3>
+        <p>O DP é técnico, instável e legalmente arriscado. Manter uma analista sênior dedicada custa caro, e a rotatividade do cargo é alta. Você quer especialização sem folha fixa.</p>
+      </div>
+      <div class="quem-card">
+        <div class="num">03</div>
+        <h3>Escritórios sob risco fiscal</h3>
+        <p>Multas por entrega em atraso, divergências de eSocial, passivos trabalhistas. Você precisa de um time que entrega no prazo e responde pelo que assina.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVIÇOS ===================== -->
+<section class="servicos" id="servicos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="smallcaps label">— Serviços</div>
+      <h2 class="display">Toda a rotina trabalhista, <span class="it">de ponta a ponta</span>.</h2>
+    </div>
+
+    <div class="serv-list" id="servList">
+      <div class="serv-row" data-detail="folha">
+        <div class="idx">01</div>
+        <h3>Folha de pagamento</h3>
+        <p>Cálculo mensal de salários, encargos, benefícios, descontos, médias e provisões — entregue revisada, com relatórios gerenciais para o contador e holerites para os colaboradores do cliente final.</p>
+        <div class="plus" aria-hidden="true"></div>
+      </div>
+      <div class="serv-detail">
+        <ul>
+          <li>Cálculo de folha mensal e adiantamentos</li>
+          <li>Provisão de férias e 13º</li>
+          <li>Benefícios: VT, VR, VA, plano de saúde</li>
+          <li>Descontos de pensão e contribuições</li>
+          <li>Médias de horas extras e adicionais</li>
+          <li>Relatórios gerenciais por centro de custo</li>
+          <li>Holerites digitais e portal do colaborador</li>
+          <li>Arquivos de remessa bancária (CNAB)</li>
+        </ul>
+      </div>
+
+      <div class="serv-row" data-detail="esocial">
+        <div class="idx">02</div>
+        <h3>eSocial &amp; obrigações acessórias</h3>
+        <p>Envio integral dos eventos do eSocial, DCTFWeb, CAGED, RAIS residual e demais obrigações trabalhistas — com monitoramento de inconsistências e correções dentro do prazo legal.</p>
+        <div class="plus" aria-hidden="true"></div>
+      </div>
+      <div class="serv-detail">
+        <ul>
+          <li>Eventos S-1000 a S-5000</li>
+          <li>Tabelas iniciais e periódicas</li>
+          <li>DCTFWeb mensal</li>
+          <li>FGTS Digital</li>
+          <li>Guias de INSS, IRRF, FGTS, sindical</li>
+          <li>PERDCOMP, GRRF, GFIP residual</li>
+          <li>Monitoramento de status e retornos</li>
+          <li>Correções e reaberturas</li>
+        </ul>
+      </div>
+
+      <div class="serv-row" data-detail="adm">
+        <div class="idx">03</div>
+        <h3>Admissões &amp; rescisões</h3>
+        <p>Recebemos os documentos, validamos, calculamos verbas, emitimos termos, agendamos homologações e enviamos os eventos. Você apenas aprova.</p>
+        <div class="plus" aria-hidden="true"></div>
+      </div>
+      <div class="serv-detail">
+        <ul>
+          <li>Checklist e validação de documentos</li>
+          <li>Contratos, fichas e termos</li>
+          <li>Cálculo de rescisão (aviso, multas, verbas)</li>
+          <li>TRCT, TQRCT e termos de quitação</li>
+          <li>Comunicação ao FGTS e seguro-desemprego</li>
+          <li>Homologação sindical quando aplicável</li>
+          <li>Aviso prévio trabalhado / indenizado</li>
+          <li>Transferências entre filiais</li>
+        </ul>
+      </div>
+
+      <div class="serv-row" data-detail="ferias">
+        <div class="idx">04</div>
+        <h3>Férias, 13º e benefícios</h3>
+        <p>Programação, aviso, cálculo, pagamento e baixa de férias coletivas e individuais; 13º em duas parcelas; gestão completa do ciclo de benefícios.</p>
+        <div class="plus" aria-hidden="true"></div>
+      </div>
+      <div class="serv-detail">
+        <ul>
+          <li>Cronograma anual de férias</li>
+          <li>Aviso de férias e recibos</li>
+          <li>Cálculo proporcional e abono pecuniário</li>
+          <li>Férias coletivas e individuais</li>
+          <li>1ª e 2ª parcelas do 13º</li>
+          <li>Cadastro e gestão de benefícios</li>
+          <li>Conciliação com operadoras</li>
+          <li>Relatórios de absenteísmo</li>
+        </ul>
+      </div>
+
+      <div class="serv-row" data-detail="consult">
+        <div class="idx">05</div>
+        <h3>Consultoria trabalhista</h3>
+        <p>Atendimento técnico para o seu cliente final via WhatsApp, e-mail e reuniões agendadas. Pareceres, simulações e orientação sobre convenções coletivas.</p>
+        <div class="plus" aria-hidden="true"></div>
+      </div>
+      <div class="serv-detail">
+        <ul>
+          <li>Análise de convenções coletivas</li>
+          <li>Simulações de admissão e rescisão</li>
+          <li>Pareceres por escrito sob demanda</li>
+          <li>Apoio em fiscalizações trabalhistas</li>
+          <li>Resposta a notificações da SRT</li>
+          <li>Adequação à reforma e jurisprudência</li>
+          <li>Treinamento de RH do cliente final</li>
+          <li>Acompanhamento de dissídios</li>
+        </ul>
+      </div>
+
+      <div class="serv-row" data-detail="white">
+        <div class="idx">06</div>
+        <h3>Atendimento white-label</h3>
+        <p>Sua marca, nosso time. Atendemos o seu cliente final como uma extensão do seu escritório — com e-mail, telefone e portal personalizados.</p>
+        <div class="plus" aria-hidden="true"></div>
+      </div>
+      <div class="serv-detail">
+        <ul>
+          <li>E-mail com domínio do seu escritório</li>
+          <li>Portal de colaboradores com sua marca</li>
+          <li>Holerites e relatórios assinados pelo escritório</li>
+          <li>SLA de resposta em até 4h úteis</li>
+          <li>Telefone exclusivo para a sua carteira</li>
+          <li>Reuniões mensais com seu cliente</li>
+          <li>Onboarding conjunto de novos clientes</li>
+          <li>NPS e pesquisa de satisfação</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESSO ===================== -->
+<section class="processo" id="processo">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="smallcaps label">— Como funciona</div>
+      <h2 class="display">Um processo curto. Um <span class="it">handoff</span> sem ruído.</h2>
+    </div>
+
+    <div class="proc-grid">
+      <div class="proc-step">
+        <span class="dot"></span>
+        <div class="step-n">PASSO 01</div>
+        <h4>Diagnóstico</h4>
+        <p>Mapeamos sua carteira, identificamos volumes e gargalos, e desenhamos um escopo de serviço com SLA e precificação por colaborador ativo.</p>
+      </div>
+      <div class="proc-step">
+        <span class="dot"></span>
+        <div class="step-n">PASSO 02</div>
+        <h4>Migração assistida</h4>
+        <p>Cuidamos da importação dos dados, do contato com seus clientes, da abertura dos eventos no eSocial e da virada operacional — em até 30 dias.</p>
+      </div>
+      <div class="proc-step">
+        <span class="dot"></span>
+        <div class="step-n">PASSO 03</div>
+        <h4>Operação contínua</h4>
+        <p>Folha, eSocial, admissões, rescisões e consultoria entram no nosso fluxo. Você recebe relatórios semanais e acessa tudo via dashboard.</p>
+      </div>
+      <div class="proc-step">
+        <span class="dot"></span>
+        <div class="step-n">PASSO 04</div>
+        <h4>Revisão trimestral</h4>
+        <p>A cada trimestre revisamos volumes, ajustamos escopo, apresentamos métricas de qualidade e propomos melhorias na sua operação trabalhista.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CALCULADORA ===================== -->
+<section class="calc" id="calc">
+  <div class="wrap-narrow">
+    <div class="section-head">
+      <div class="smallcaps label">— Estimativa de economia</div>
+      <h2 class="display">Quanto custa <span class="it">manter</span> um DP interno?</h2>
+    </div>
+
+    <div class="calc-shell" id="calcShell">
+      <div class="calc-controls">
+        <h3>Simule sua economia</h3>
+        <p class="sub">Compare o custo do seu DP interno com o BPO da Fluxo. Arraste os controles.</p>
+
+        <div class="field">
+          <label>Empresas na sua carteira <span class="val" id="vEmp">40</span></label>
+          <input type="range" id="rEmp" min="5" max="200" value="40" step="1">
+        </div>
+        <div class="field">
+          <label>Total de colaboradores administrados <span class="val" id="vCol">280</span></label>
+          <input type="range" id="rCol" min="20" max="3000" value="280" step="10">
+        </div>
+        <div class="field">
+          <label>Analistas de DP no seu time <span class="val" id="vAna">3</span></label>
+          <input type="range" id="rAna" min="1" max="15" value="3" step="1">
+        </div>
+        <div class="field">
+          <label>Salário médio do analista <span class="val" id="vSal">R$ 4.800</span></label>
+          <input type="range" id="rSal" min="3000" max="9000" value="4800" step="100">
+        </div>
+      </div>
+
+      <div class="calc-result">
+        <div>
+          <div class="smallcaps lbl">Economia estimada / ano</div>
+          <div class="big"><span class="cur">R$</span><span id="econVal">82.400</span></div>
+          <div class="per"><span id="econPct">38</span>% menos que manter o DP interno, mantendo a qualidade técnica.</div>
+        </div>
+        <div class="calc-comp">
+          <div>
+            <div class="ttl">Custo interno / ano</div>
+            <div class="v strike" id="custoInterno">R$ 216.000</div>
+          </div>
+          <div>
+            <div class="ttl">Custo Fluxo / ano</div>
+            <div class="v" id="custoFluxo">R$ 133.600</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DIFERENCIAIS ===================== -->
+<section class="diff" id="diferenciais">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="smallcaps label">— Diferenciais</div>
+      <h2 class="display">O que você ganha <span class="it">além</span> da operação.</h2>
+    </div>
+
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="head">
+          <span class="n">01</span>
+          <h4>Responsabilidade técnica <span class="it">por escrito</span>.</h4>
+        </div>
+        <p>Cada entrega é assinada por um analista sênior identificado. Em caso de erro operacional comprovado, a Fluxo assume os custos previstos em contrato — sem repassar ao seu escritório.</p>
+      </div>
+      <div class="diff-card">
+        <div class="head">
+          <span class="n">02</span>
+          <h4>Plataforma <span class="it">white-label</span> incluída.</h4>
+        </div>
+        <p>Portal do colaborador, dashboard do contador e canal de chamados — tudo com a sua marca, suas cores e seu domínio. O cliente final percebe um único fornecedor: você.</p>
+      </div>
+      <div class="diff-card">
+        <div class="head">
+          <span class="n">03</span>
+          <h4>Time dedicado <span class="it">e nominal</span>.</h4>
+        </div>
+        <p>Você terá um Analista Líder e um Coordenador de Conta com nome, foto e contato direto. Sem fila genérica de atendimento, sem trocas frequentes, sem fricção.</p>
+      </div>
+      <div class="diff-card">
+        <div class="head">
+          <span class="n">04</span>
+          <h4>Reajuste atrelado <span class="it">à operação</span>.</h4>
+        </div>
+        <p>A precificação acompanha o volume real — colaboradores ativos no mês. Se a carteira diminui, sua fatura também diminui. Sem letra miúda, sem reajustes anuais arbitrários.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE ===================== -->
+<section class="quote">
+  <div class="wrap">
+    <div class="quote-grid">
+      <image-slot id="founder-portrait" class="portrait-slot" shape="rounded" radius="14" src="assets/team.jpg" placeholder="Arraste aqui o retrato da fundadora ou da equipe"></image-slot>
+      <div>
+        <div class="smallcaps" style="color:rgba(244,241,234,.5);margin-bottom:24px">— Da nossa fundadora</div>
+        <blockquote>
+          “Quando um contador <span class="it">terceiriza o DP</span> com método, ele para de operar fluxo e volta a operar relação. <span class="it">Esse é o nosso produto.</span>”
+        </blockquote>
+        <div class="cite">
+          <span class="bar"></span>
+          <span>Ariel Mendes &nbsp;·&nbsp; Sócia-fundadora, Fluxo DP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="faq" id="faq">
+  <div class="wrap-narrow">
+    <div class="section-head">
+      <div class="smallcaps label">— Perguntas frequentes</div>
+      <h2 class="display">Antes que você <span class="it">pergunte</span>.</h2>
+    </div>
+
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q">Vocês atendem o meu cliente final ou só falam comigo?
+          <span class="sign" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><p>Atendemos quem você definir. No modo white-label, falamos diretamente com o cliente final usando o domínio e a marca do seu escritório. No modo back-office, tratamos exclusivamente com a sua equipe interna. Em ambos os casos, o contrato é com o seu escritório.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Como funciona a migração do meu DP atual?
+          <span class="sign" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><p>Em até 30 dias. Recebemos seus arquivos atuais (folha, eSocial, cadastros), validamos divergências, importamos para a nossa plataforma, ajustamos o que precisa ser ajustado e fazemos a virada em um mês de fechamento — sem prejuízo das entregas legais.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">A precificação é por escritório ou por colaborador?
+          <span class="sign" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><p>Por colaborador ativo no mês, com um piso mínimo por empresa atendida. Esse modelo garante que sua fatura acompanhe o tamanho real da carteira e não pague por quem não está mais ativo.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Quem responde por uma multa causada por erro de cálculo?
+          <span class="sign" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><p>A Fluxo. Em caso de erro operacional comprovado, assumimos contratualmente o custo de multas, juros e correções decorrentes — sem repasse ao seu escritório. Todos os limites e condições estão descritos em cláusula específica do contrato.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Vocês usam quais sistemas de folha?
+          <span class="sign" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><p>Operamos nos principais sistemas do mercado contábil brasileiro (Domínio, Questor, Folhamatic, SCI, Calima) e mantemos nossa plataforma própria de portal de colaborador e dashboards. Você não precisa trocar de sistema — adaptamos ao que já roda no seu escritório.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Qual é o prazo mínimo de contrato?
+          <span class="sign" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><p>12 meses, renovável automaticamente. Antes disso, oferecemos um piloto de 30 dias com escopo reduzido para que você teste o atendimento, o SLA e os relatórios — sem fidelidade.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA / FORM ===================== -->
+<section class="cta" id="cta">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div>
+        <div class="smallcaps" style="color:var(--gray-500);margin-bottom:24px">— Diagnóstico gratuito</div>
+        <h2 class="display">Vamos olhar a sua carteira de DP <span class="it">juntos</span>.</h2>
+        <p class="cta-lead">Em uma conversa de 30 minutos, mapeamos os pontos de risco da sua operação trabalhista e enviamos um relatório com escopo, SLA e proposta — sem compromisso.</p>
+
+        <div class="cta-contact-list">
+          <div class="row"><span>Comercial / WhatsApp</span><b>+55  31  9 9338&middot;3738</b></div>
+          <div class="row"><span>E-mail</span><b>contato@fluxodp.com.br</b></div>
+          <div class="row"><span>Endereço</span><b>R. Mario Alves Teixeira, 210</b></div>
+          <div class="row"><span>Cidade</span><b>Jd. Arizona  ·  Sete Lagoas  MG</b></div>
+        </div>
+      </div>
+
+      <form class="form" id="form" novalidate>
+        <div class="form-fields">
+          <div class="form-row">
+            <div>
+              <label class="in">Nome</label>
+              <input type="text" name="nome" id="fNome" placeholder="Ex.: Marina Andrade">
+              <span class="err" data-for="fNome"></span>
+            </div>
+            <div>
+              <label class="in">E-mail corporativo</label>
+              <input type="email" name="email" id="fEmail" placeholder="marina@escritorio.com.br">
+              <span class="err" data-for="fEmail"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label class="in">Escritório de contabilidade</label>
+              <input type="text" name="empresa" id="fEmp" placeholder="Nome do escritório">
+              <span class="err" data-for="fEmp"></span>
+            </div>
+            <div>
+              <label class="in">Empresas na carteira</label>
+              <select name="carteira" id="fCart">
+                <option value="">Selecione</option>
+                <option>Até 20 empresas</option>
+                <option>21 a 60 empresas</option>
+                <option>61 a 150 empresas</option>
+                <option>Mais de 150 empresas</option>
+              </select>
+              <span class="err" data-for="fCart"></span>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div>
+              <label class="in">Como podemos ajudar?</label>
+              <textarea name="msg" id="fMsg" placeholder="Conte rapidamente sobre sua operação atual de DP e o que você quer resolver."></textarea>
+            </div>
+          </div>
+          <button type="submit">Enviar e agendar diagnóstico <span class="btn-arrow"></span></button>
+        </div>
+        <div class="ok">
+          <div class="check">✓</div>
+          <h4>Pedido recebido.</h4>
+          <p>Um especialista vai entrar em contato em até 1 dia útil para agendar o diagnóstico.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand" style="color:var(--cream)">
+          <b>Fluxo DP</b>
+          <span style="color:rgba(244,241,234,.5)">&  Consultoria</span>
+        </div>
+        <p>BPO de Departamento Pessoal especializado em escritórios de contabilidade. CNPJ XX.XXX.XXX/0001-XX.</p>
+      </div>
+      <div>
+        <h5>Serviços</h5>
+        <a href="#servicos">Folha de pagamento</a>
+        <a href="#servicos">eSocial &amp; obrigações</a>
+        <a href="#servicos">Admissão e rescisão</a>
+        <a href="#servicos">Consultoria trabalhista</a>
+        <a href="#servicos">White-label</a>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <a href="#para-quem">Para quem é</a>
+        <a href="#processo">Processo</a>
+        <a href="#diferenciais">Diferenciais</a>
+        <a href="#faq">FAQ</a>
+        <a href="#cta">Diagnóstico</a>
+      </div>
+      <div>
+        <h5>Contato</h5>
+        <a href="mailto:contato@fluxodp.com.br">contato@fluxodp.com.br</a>
+        <a href="tel:+5531993383738">+55  31  9 9338&middot;3738</a>
+        <a href="https://wa.me/5531993383738" target="_blank" rel="noopener">WhatsApp Comercial</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="foot-mark" aria-hidden="true"><span class="line">Fluxo <span class="it">DP</span></span><span class="line">&amp; Consultoria</span></div>
+
+    <div class="foot-bottom">
+      <div>© 2025 Fluxo DP &amp; Consultoria — todos os direitos reservados.</div>
+      <div>Política de privacidade  ·  Termos  ·  LGPD</div>
+    </div>
+  </div>
+</footer>
+
+<script src="image-slot.js"></script>
+<script>
+  // ---------- NAV scroll state ----------
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if(window.scrollY > 24) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ---------- COUNTERS ----------
+  const fmt = (n) => n.toLocaleString('pt-BR');
+  function animateCounter(el){
+    const target = parseInt(el.dataset.counter,10);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1500;
+    const start = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now-start)/dur);
+      const eased = 1 - Math.pow(1-t, 3);
+      const val = Math.round(target * eased);
+      el.textContent = fmt(val) + suffix;
+      if(t<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const counters = document.querySelectorAll('[data-counter]');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        animateCounter(e.target);
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.4});
+  counters.forEach(c=>io.observe(c));
+
+  // ---------- SERVIÇOS expand ----------
+  document.querySelectorAll('#servList .serv-row').forEach(row=>{
+    row.addEventListener('click', ()=>{
+      const open = row.classList.contains('open');
+      document.querySelectorAll('#servList .serv-row.open').forEach(r=>r.classList.remove('open'));
+      if(!open) row.classList.add('open');
+    });
+  });
+
+  // ---------- CALCULADORA ----------
+  const rEmp = document.getElementById('rEmp');
+  const rCol = document.getElementById('rCol');
+  const rAna = document.getElementById('rAna');
+  const rSal = document.getElementById('rSal');
+  const vEmp = document.getElementById('vEmp');
+  const vCol = document.getElementById('vCol');
+  const vAna = document.getElementById('vAna');
+  const vSal = document.getElementById('vSal');
+  const econVal = document.getElementById('econVal');
+  const econPct = document.getElementById('econPct');
+  const custoInterno = document.getElementById('custoInterno');
+  const custoFluxo = document.getElementById('custoFluxo');
+
+  function brl(n){ return 'R$ ' + Math.round(n).toLocaleString('pt-BR'); }
+  function recalc(){
+    const emp = +rEmp.value;
+    const col = +rCol.value;
+    const ana = +rAna.value;
+    const sal = +rSal.value;
+
+    vEmp.textContent = emp;
+    vCol.textContent = fmt(col);
+    vAna.textContent = ana;
+    vSal.textContent = brl(sal);
+
+    // Cost approximations (per year)
+    // Internal: salary * 1.85 (encargos+benefícios) * analysts * 13.33 months (provisões) + estrutura
+    const interno = sal * 1.85 * ana * 13.33 + emp * 240;
+    // Fluxo BPO: per active employee tiered
+    const perCol = col > 1500 ? 38 : col > 600 ? 46 : col > 200 ? 58 : 72;
+    const fluxo = col * perCol * 12 + emp * 90 * 12;
+
+    const economia = Math.max(0, interno - fluxo);
+    const pct = Math.round((economia / interno) * 100);
+
+    custoInterno.textContent = brl(interno);
+    custoFluxo.textContent = brl(fluxo);
+    econVal.textContent = Math.round(economia).toLocaleString('pt-BR');
+    econPct.textContent = pct;
+  }
+  [rEmp,rCol,rAna,rSal].forEach(r=>r.addEventListener('input', recalc));
+  recalc();
+
+  // ---------- FAQ ----------
+  document.querySelectorAll('#faqList .faq-item').forEach(item=>{
+    item.querySelector('.faq-q').addEventListener('click', ()=>{
+      const open = item.classList.contains('open');
+      document.querySelectorAll('#faqList .faq-item.open').forEach(i=>i.classList.remove('open'));
+      if(!open) item.classList.add('open');
+    });
+  });
+
+  // ---------- FORM validation ----------
+  const form = document.getElementById('form');
+  const fNome = document.getElementById('fNome');
+  const fEmail = document.getElementById('fEmail');
+  const fEmp = document.getElementById('fEmp');
+  const fCart = document.getElementById('fCart');
+
+  function setErr(input, msg){
+    const errEl = form.querySelector(`.err[data-for="${input.id}"]`);
+    if(errEl) errEl.textContent = msg || '';
+    input.style.borderColor = msg ? '#9B2727' : '';
+  }
+  function validate(){
+    let ok = true;
+    if(!fNome.value.trim()){ setErr(fNome,'Informe seu nome.'); ok=false; } else setErr(fNome,'');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fEmail.value)){ setErr(fEmail,'E-mail inválido.'); ok=false; } else setErr(fEmail,'');
+    if(!fEmp.value.trim()){ setErr(fEmp,'Informe seu escritório.'); ok=false; } else setErr(fEmp,'');
+    if(!fCart.value){ setErr(fCart,'Selecione um intervalo.'); ok=false; } else setErr(fCart,'');
+    return ok;
+  }
+  [fNome,fEmail,fEmp,fCart].forEach(i=>i.addEventListener('input', ()=>{ if(form.classList.contains('attempted')) validate(); }));
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    form.classList.add('attempted');
+    if(validate()) form.classList.add('success');
+  });
+</script>
+
+</body>
+</html>
